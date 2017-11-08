@@ -29,11 +29,11 @@ def gci(dirpath):
 			fileName =  os.path.join(dirpath,fi_d)
 
 			# 取得后缀名字 进行判断是否是csv.
-			strparts = len(fileName.split('.'))
-			strExt = fileName.split('.')[1]
+			strpartsLen = len(fileName.split('.'))
+			strExt = fileName.split('.')[strpartsLen-1]
 
 			# print strExt
-			if strExt.lower() == 'csv' and strparts == 2:
+			if strExt.lower() == 'csv':
 				HandleOneFile(fileName)
 
 # 获得不含文件扩展名的 绝对文件名字
@@ -66,8 +66,12 @@ class DataParser:
 	def LoadFile(self):
 		with codecs.open(self.csv_file_path, 'r', 'utf8') as f:
 			self.CSVData = f.readlines()
+
+		# 第一行为名字.
+		# 第二行为类型.
+		# 第三行为注释.
 		self.ItemName = self.CSVData[0].strip('\r\n').split(',')
-		self.ItemType = self.CSVData[2].strip('\r\n').split(',')
+		self.ItemType = self.CSVData[1].strip('\r\n').split(',')
 		self.ItemNums = len(self.ItemName)			#获得数据列数
 		self.ItemRows = len(self.CSVData)			#获得数据表行数 Rows.
 
@@ -89,13 +93,26 @@ class DataParser:
 
 	def GetValue(self,itemType,itemValue):
 		itemRtn = 0
- 		if itemType == 'int':
- 			itemRtn = int(itemValue)
- 		elif itemType == 'string':
- 			itemRtn = itemValue
- 		elif itemType == 'float':
- 			itemRtn = float(itemValue)
 
+ 		if itemType == 'int':
+
+ 			if itemValue == '':
+ 				itemRtn = int('0')
+ 			else:
+ 				itemRtn = int(itemValue)
+
+ 		elif itemType == 'string':
+ 			if itemValue == '':
+ 				itemRtn = ''
+ 			else:
+ 				itemRtn = itemValue
+
+ 		elif itemType == 'float':
+ 			if itemValue == '':
+ 				itemRtn = float('0')
+ 			else:
+ 				itemRtn = float(itemValue)
+ 			
  		return itemRtn
 
  	def Write2File(self, writeData):
@@ -131,13 +148,15 @@ class DataParser:
 			for column in xrange(0,self.ItemNums):
 				# print column
 				strValue = rowField[column]
-				# print strValue
+				# print 'strValue : ', strValue
 
 				# 取得值.
 				ItemValue = self.GetValue(self.ItemType[column], strValue)
+				# print 'ItemValue :', ItemValue
 
 				# 取得字符串字段名.
 				ItemFieldName = self.ItemName[column]
+				# print 'ItemFieldName :', ItemFieldName
 
 				setattr(item,ItemFieldName,ItemValue)
 
@@ -180,31 +199,6 @@ def HandleOneFile(filePath):
 	dataHandle = DataParser(csvFilePath,pb2FileModule,pbDataFilePath,GlobalVariable.PythonClassOutPath)
 	dataHandle.Parse()
 
-
-	# 加载CSV文件数据.
-
-
-
-	# fileSingleName = GetAbsoluteFileNameByFullPath(filePath)
-	# # print fileSingleName
-	# #组合输出proto路径
-	# cSharpFile = GlobalVariable.CsharpOutPath + fileSingleName + '.cs'
-	# # print cSharpFile
-	
-	# #组合为执行字符串.
-
-	# strCSEXE = GlobalVariable.ProtoGenEXE + ' ' + '-i:' + filePath + ' ' + '-o:' + cSharpFile
-
-	# # print 生成CS类.
-	# os.system(strCSEXE)
-
-	# # 生成Python解释类.
-	# strPythonEXE = GlobalVariable.ProtocEXE + ' ' + '-I=' + \
-	# 				GlobalVariable.ProtoOutPath + ' ' + '--python_out=' +  GlobalVariable.PythonClassOutPath + \
-	# 				' ' + GlobalVariable.ProtoOutPath + fileSingleName + '.proto'
-
-	# print strPythonEXE
-	# os.system(strPythonEXE)
 
 # 处理所有文件.
 def HandleAllFiles():
