@@ -1,0 +1,18 @@
+message Ghost
+{
+    message GhostItem
+    {
+        required int32 ID = 1;
+        required string Name = 2;
+        required int32 place = 3;
+        required string HEX = 4;
+        required string CreatureID = 5;
+        required string Icon = 6;
+        required string Winicon = 7;
+        required string recognition = 8;
+        required string light = 9;
+        required string bomb = 10;
+    };
+
+    repeated GhostItem items = 1;
+}

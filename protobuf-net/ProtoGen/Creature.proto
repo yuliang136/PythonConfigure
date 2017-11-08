@@ -1,0 +1,17 @@
+message Creature
+{
+    message Item
+    {
+        required int32 Id = 1;
+        required string Name = 2;
+        required string Res = 3;
+        required string Colour = 4;
+        required string Size = 5;
+        required string Play = 6;
+        required int32 Ps = 7;
+        required int32 Ms = 8;
+        required int32 Ds = 9;
+    };
+
+    repeated Item items = 1;
+}

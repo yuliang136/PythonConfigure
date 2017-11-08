@@ -1,0 +1,15 @@
+配置工程需要环境:
+只在Window环境下测试通过
+安装Python 2.7.7 并设置执行路径.
+
+
+修改Run.bat里的配置.
+
+CSVPath:			策划给的CSV文件的路径
+CSharpPath:			生成C#类的路径
+ProtoDataPath：		Proto二进制文件路径
+
+ProtoPath:			设置在Run.bat 同级目录则可以 可以放在任意地方 注意目录名保持不变 War2Scheme
+PythonClassPath: 	可以放在任意地方
+ProtogenPath:		设置自己的绝对路径.
+ProtocPath:			设置自己的绝对路径.

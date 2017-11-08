@@ -1,0 +1,13 @@
+message Sound
+{
+    message SoundItem
+    {
+        required int32 SoundId = 1;
+        required int32 Loop = 2;
+        required int32 CoolTime = 3;
+        required string Desc = 4;
+        required string Filename = 5;
+    };
+
+    repeated SoundItem items = 1;
+}
