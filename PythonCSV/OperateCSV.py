@@ -11,8 +11,13 @@ def LoadFile(filePath):
 	with codecs.open(filePath, 'r', 'utf8') as f:
 		GlobalVariable.CSVData = f.readlines()
 
+	# 第一行为名字.
+	# 第二行为类型.
+	# 第三行为注释.
+
+	# 这里如何根据不同平台来处理.
 	GlobalVariable.ItemName = GlobalVariable.CSVData[0].strip('\r\n').split(',')
-	GlobalVariable.ItemType = GlobalVariable.CSVData[2].strip('\r\n').split(',')
+	GlobalVariable.ItemType = GlobalVariable.CSVData[1].strip('\r\n').split(',')
 
 	# print type(GlobalVariable.ItemType)
 	# print GlobalVariable.ItemType
@@ -20,37 +25,9 @@ def LoadFile(filePath):
 	# print ItemName
 	GlobalVariable.ItemNums = len(GlobalVariable.ItemName)			#获得数据列数
 
-	# print 'ItemNums ' + str(GlobalVariable.ItemNums)
 
-	# print ItemNums
-
-	# print type(items)
-	# for eachItem in items:
-	# 	print eachItem
-
-		# print type(f.readlines())
-		# for line in f.readlines():
-			# print (line.strip())
-			# print type(f.readlines())
-		
-	
-	# with codecs.open('csv_test.csv','r','utf-8') as f:
-	# 	reader = csv.reader(f)
-	# 	for row in reader:
-	# 		print row
-
-# def WriteCSV():
-# 	csvfile = file(GlobalVariable.CSVInPath,'wb')
-# 	writer = csv.writer(csvfile)
-# 	writer.writerow(['姓名','年龄','电话'])
-
-# 	data = [('小河', '25', '1234567'),
-# 			('小芳', '18', '789456')]
-# 	writer.writerows(data)
-# 	csvfile.close()
-
+# 遍历filepath下所有文件 包括子目录. 找到所有csv后缀结尾的文件.
 def gci(dirpath):
-# 遍历filepath下所有文件 包括子目录.
 	files = os.listdir(dirpath)
 	for fi in files:
 		fi_d = os.path.join(dirpath,fi);
@@ -59,11 +36,11 @@ def gci(dirpath):
 		else:
 			fileName =  os.path.join(dirpath,fi_d)
 			# 取得后缀名字 进行判断是否是csv.
-			strparts = len(fileName.split('.'))
-			strExt = fileName.split('.')[1]
+			strpartsLen = len(fileName.split('.'))
+			strExt = fileName.split('.')[strpartsLen -1]
 
-			# print strExt
-			if strExt.lower() == 'csv' and strparts == 2:
+			print strExt
+			if strExt.lower() == 'csv':
 				HandleOneFile(fileName)
 
 def GetEachItemContent(x):
@@ -162,12 +139,14 @@ def HandleOneFile(filePath):
 	# GlobalVariable.CSVData[0].strip('\r\n').split(',')
 
 	fileSingleName = GetAbsoluteFileNameByFullPath(filePath)
-	# print fileSingleName
+	print fileSingleName
 
 	#组合输出proto路径
 	protoFile = GlobalVariable.ProtoOutPath + fileSingleName + '.proto'
-	# print protoFile
-	WriteFramework(protoFile)
+	print protoFile
+
+
+	# WriteFramework(protoFile)
 
 
 # 处理所有文件.
