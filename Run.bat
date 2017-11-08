@@ -1,9 +1,9 @@
 @set VRTransferBomb=D:\gitWork\DevelopSocialGame\SeriesGames\TransferBomb\Assets
-@set PythonConfig=D:\work\NcyWarIIProtobuf\PythonConfigure
+@set PythonConfig=F:\GitHubProjects\PythonConfigure
 
 @set CSVPath=F:\GitHubProjects\PythonConfigure\CSVExam\
 @set ProtoPath=F:\GitHubProjects\PythonConfigure\ProtoExam\
-@set CSharpPath=D:\gitWork\DevelopSocialGame\SeriesGames\TransferBomb\TransferBombDLL\
+@set CSharpPath=F:\GitHubProjects\PythonConfigure\CSharpExam\
 @set PythonClassPath=%PythonConfig%\PythonPb2
 @set ProtoDataPath=%VRTransferBomb%\transferbomb\Self\Resources\ProtoBytes\
 
@@ -11,7 +11,13 @@
 @set ProtocPath=%PythonConfig%\protoc
 
 
-@echo %CSVDir%
+chcp 65001
+set PYTHONIOENCODING=utf-8
+
+
+
+
+@em @echo %CSVDir%
 
 @Rem 清空Proto目录.
 @Rem @rd /S/Q %ProtoPath%
@@ -32,13 +38,13 @@
 @Rem CSV->Proto
 @python ./PythonCSV/OperateCSV.py %CSVPath% %ProtoPath%
 
-rem @Rem 逐步检查功能是否正确.
-rem @Rem @pause
+@rem @Rem 逐步检查功能是否正确.
+@rem @Rem @pause
 
-rem @Rem 处理Proto->CS
-rem @python ./PythonCSV/ConvertProto2CS.py %ProtogenPath% %ProtoPath% %CSharpPath% %PythonClassPath% %ProtocPath%
+@rem Proto->CS
+@python ./PythonCSV/ConvertProto2CS.py %ProtogenPath% %ProtoPath% %CSharpPath% %PythonClassPath% %ProtocPath%
 
-rem @Rem 处理CSV 通过Proto把CSV序列化为Bytes.
-rem @python ./PythonCSV/SeriData.py %CSVPath% %PythonClassPath% %ProtoDataPath% 
+@rem @Rem 处理CSV 通过Proto把CSV序列化为Bytes.
+@rem @python ./PythonCSV/SeriData.py %CSVPath% %PythonClassPath% %ProtoDataPath% 
 
 pause

@@ -1,0 +1,14 @@
+message animation
+{
+    message animationItem
+    {
+        required int32 id = 1;
+        required string name = 2;
+        required string coment = 3;
+        required float length = 4;
+        required string keyframe = 5;
+        required string path = 6;
+    };
+
+    repeated animationItem items = 1;
+}

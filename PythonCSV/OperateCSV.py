@@ -7,6 +7,9 @@ import GlobalVariable
 import sys
 import os;
 
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 def LoadFile(filePath):
 	with codecs.open(filePath, 'r', 'utf8') as f:
 		GlobalVariable.CSVData = f.readlines()
@@ -26,6 +29,17 @@ def LoadFile(filePath):
 	GlobalVariable.ItemNums = len(GlobalVariable.ItemName)			#获得数据列数
 
 
+
+	# # 遍历打印出所有的字段. 如果为,,中间的内容如何处理.
+	# Content = GlobalVariable.CSVData[3].strip('\r\n').split(',')
+	# for item in Content:
+	# 	if item == '':
+	# 		print 'item is null'
+	# 	else:
+	# 		print 'item : ', item
+		
+
+
 # 遍历filepath下所有文件 包括子目录. 找到所有csv后缀结尾的文件.
 def gci(dirpath):
 	files = os.listdir(dirpath)
@@ -39,7 +53,7 @@ def gci(dirpath):
 			strpartsLen = len(fileName.split('.'))
 			strExt = fileName.split('.')[strpartsLen -1]
 
-			print strExt
+			# print strExt
 			if strExt.lower() == 'csv':
 				HandleOneFile(fileName)
 
@@ -97,8 +111,8 @@ def WriteFramework(filePath):
 
 	# print fileSingleName
 
-	# print fileSingleName
-	# print filePath
+	print 'fileSingleName :', fileSingleName
+	print 'filePath :', filePath
 
 	f = open(filePath,'w')
 	f.write('message ' + fileSingleName + '\n')
@@ -139,14 +153,14 @@ def HandleOneFile(filePath):
 	# GlobalVariable.CSVData[0].strip('\r\n').split(',')
 
 	fileSingleName = GetAbsoluteFileNameByFullPath(filePath)
-	print fileSingleName
+	# print fileSingleName
 
 	#组合输出proto路径
 	protoFile = GlobalVariable.ProtoOutPath + fileSingleName + '.proto'
-	print protoFile
+	# print protoFile
 
 
-	# WriteFramework(protoFile)
+	WriteFramework(protoFile)
 
 
 # 处理所有文件.
@@ -156,6 +170,8 @@ def HandleAllFiles(csvpath,protopath):
 	gci(csvpath)
 
 def main ():
+
+	print "Encoding is", sys.stdin.encoding
 
 	# print ("脚本名: " + sys.argv[0]).decode('utf-8')
 	GlobalVariable.CSVInPath = sys.argv[1]
